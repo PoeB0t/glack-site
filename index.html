@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Мій сайт</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- AOS Animation -->
+  <link href="https://unpkg.com/aos@next/dist/aos.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      background-color: black;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Верхня "брова" */
+    .top-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 20px 20px;
+      position: relative;
+      width: 100%;
+      background: linear-gradient(270deg, #0057b7, #ffd700);
+      background-size: 400% 400%;
+      animation: scroll-gradient 10s ease infinite;
+      flex-direction: column;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .top-buttons {
+      display: flex;
+      gap: 20px;
+    }
+
+    .top-buttons a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 2rem;
+      padding: 24px 48px;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 20px;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      text-align: center;
+    }
+
+    .top-buttons a:hover {
+      transform: scale(1.05);
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .logo-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin: 20px 0 0;
+    }
+
+    .main-btn {
+      display: inline-block;
+      cursor: pointer;
+      transition: transform 0.5s ease;
+      position: relative;
+    }
+
+    .main-btn img {
+      display: block;
+      width: 200px;
+      border-radius: 20px;
+      transition: all 0.5s ease;
+    }
+
+    .main-btn:hover img {
+      transform: scale(1.2);
+      content: url('https://media.discordapp.net/attachments/1249481628569571348/1434589279891230740/scale_1200.png?ex=6908e0e1&is=69078f61&hm=697a7486cad62a74a5e38bcd15e2f4477238895e2ff47e97d709e704028e7ab3&=&format=webp&quality=lossless');
+    }
+
+    .logo-gif {
+      height: 100px;
+      margin-top: 10px;
+      transition: transform 0.5s ease;
+      cursor: pointer;
+    }
+
+    .logo-gif:hover {
+      transform: rotateY(360deg);
+    }
+
+    @keyframes scroll-gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* === Новый блок с фото и текстом === */
+    .info-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap-reverse;
+      gap: 80px;
+      padding: 160px 40px;
+      background: radial-gradient(circle at 20% 20%, rgba(20,20,50,1), rgba(0,0,0,1) 70%);
+      box-shadow: inset 0 0 120px rgba(0,255,255,0.1);
+      color: white;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .info-text {
+      font-size: 1.6rem;
+      line-height: 1.8;
+      max-width: 600px;
+      z-index: 1;
+      white-space: pre-wrap;
+      text-shadow: 0 0 10px rgba(0,255,255,0.2);
+    }
+
+    .info-text span {
+      display: inline-block;
+      transition: color 0.2s ease, text-shadow 0.3s ease, transform 0.2s ease;
+    }
+
+    .info-text span:hover {
+      color: #00ffff;
+      text-shadow: 0 0 20px #00ffff;
+      transform: scale(1.3);
+    }
+
+    .info-image {
+      flex-shrink: 0;
+      z-index: 1;
+      position: relative;
+      overflow: visible;
+    }
+
+    .info-image img {
+      width: 400px;
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(0,255,255,0.3);
+      transition: transform 0.4s ease;
+      cursor: pointer;
+    }
+
+    /* Пластилиновая анимация (активируется JS) */
+    @keyframes stretch1 {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.3, 0.9); }
+      50% { transform: scale(0.9, 1.2); }
+      75% { transform: scale(1.15, 0.95); }
+      100% { transform: scale(1); }
+    }
+    @keyframes stretch2 {
+      0% { transform: scale(1); }
+      25% { transform: scale(0.8, 1.3); }
+      50% { transform: scale(1.2, 0.85); }
+      75% { transform: scale(0.95, 1.1); }
+      100% { transform: scale(1); }
+    }
+    @keyframes stretch3 {
+      0% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(3deg) scale(1.2, 0.9); }
+      50% { transform: rotate(-3deg) scale(0.9, 1.1); }
+      75% { transform: rotate(2deg) scale(1.15, 0.95); }
+      100% { transform: rotate(0deg) scale(1); }
+    }
+
+    .animate-stretch1 { animation: stretch1 1.3s ease; }
+    .animate-stretch2 { animation: stretch2 1.3s ease; }
+    .animate-stretch3 { animation: stretch3 1.3s ease; }
+
+    @media (max-width: 900px) {
+      .info-section {
+        flex-direction: column-reverse;
+        text-align: center;
+      }
+      .info-image img {
+        width: 80%;
+      }
+    }
+
+    /* Popup styles */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      display: none;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .popup-content {
+      width: 90%;
+      max-width: 1200px;
+      background: linear-gradient(270deg, #001f3f, #007f5f);
+      background-size: 400% 400%;
+      animation: hacker-glow 10s ease infinite;
+      padding: 80px;
+      border-radius: 30px;
+      text-align: center;
+      display: flex;
+      gap: 60px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .popup-content a img {
+      width: 300px;
+      filter: grayscale(100%);
+      transition: filter 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+      border-radius: 20px;
+    }
+
+    .popup-content a img:hover {
+      filter: grayscale(0%);
+      transform: scale(1.15);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes hacker-glow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Брова -->
+  <div class="top-bar">
+    <div class="top-row">
+ <div class="top-buttons">
+  <a href="#donate"><i class="fas fa-hands-helping"></i> підтримка</a>
+</div>
+      <div class="logo-wrapper">
+        <a href="#" class="main-btn">
+          <img src="https://psv4.userapi.com/s/v1/d/KkWJHEz_rjanZCExlgoDFaGtkQINJaMDa-KsK-WxTPQncF9FLek4yFWj4RxAimm3oADNZmVBXpDJZ1zT4k5adXYuvwadFT1RVoWoOp6etAbVX7cyHMWymg/1605261527787.png" alt="лого">
+        </a>
+        <a href="#" title="Свята гіфка">
+          <img src="https://media.tenor.com/n7qRX49fKVQAAAAi/centreua.gif" alt="гіфка" class="logo-gif">
+        </a>
+      </div>
+      <div class="top-buttons">
+        <a href="#" onclick="showPopup()"><i class="fas fa-users"></i> соц.мережі</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Новый блок -->
+  <section class="info-section" data-aos="fade-up">
+    <div class="info-text" id="animated-text">
+      Илья — Админ, глава, хозяин, милый 
+      администратор и основатель тг канала 
+      "Православный Коммунизм"
+      Шарит за все Deep-Sea Prisoner, Milk Girl, 
+      Не отказывается від заборонених речовин.
+      ̶Д̶у̶ж̶е̶ ̶р̶о̶з̶у̶м̶н̶и̶й̶, поедет учиться в Польшу
+      Нравится: Штефанов, Стас Ай Как просто,.. 
+      Ну а дальше не важно…
+    </div>
+
+    <div class="info-image">
+      <img id="stretchy-image" src="https://media.discordapp.net/attachments/1249481628569571348/1434593333845561374/2.jpg?ex=6908e4a8&is=69079328&hm=b7651a104db8706fb40acc1a1e287e06781a1385b86153a20f0198f070e66084&=&format=webp" alt="Ілья">
+    </div>
+  </section>
+
+  <!-- Popup -->
+  <div class="popup-overlay" id="popup">
+    <div class="popup-content">
+      <a href="https://t.me/orthodoxcommunism" target="_blank">
+        <img src="https://media.discordapp.net/attachments/1249481628569571348/1434589253437882508/9f2f849bce6ac294.png?ex=6908e0db&is=69078f5b&hm=9b540db897d4059957f6491ae332c4db015b0d7bbb442745d679db760e8804bc&=&format=webp&quality=lossless&width=775&height=775" alt="Facebook">
+      </a>
+      <a href="https://t.me/furrysxodka" target="_blank">
+        <img src="https://media.discordapp.net/attachments/1249481628569571348/1434589261461454979/c1b8e3f08ae24dbe.png?ex=6908e0dd&is=69078f5d&hm=96ca88cb044e33ee6dac4041987daa69afb4a5c34729d1e12dd6bff275d00af3&=&format=webp&quality=lossless&width=771&height=775" alt="Instagram">
+      </a>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 800, once: true });
+
+    function showPopup() {
+      document.getElementById('popup').style.display = 'flex';
+    }
+
+    window.addEventListener('click', function(e) {
+      const popup = document.getElementById('popup');
+      if (e.target === popup) popup.style.display = 'none';
+    });
+
+    // эффект клика по картинке
+    const img = document.getElementById("stretchy-image");
+    img.addEventListener("click", () => {
+      const rand = Math.ceil(Math.random() * 3);
+      img.classList.remove("animate-stretch1", "animate-stretch2", "animate-stretch3");
+      void img.offsetWidth; // перезапуск анимации
+      img.classList.add(`animate-stretch${rand}`);
+    });
+
+    // подсветка по буквам
+    const text = document.getElementById("animated-text");
+    const content = text.innerText;
+    text.innerHTML = "";
+    for (let char of content) {
+      if (char === " ") text.innerHTML += " ";
+      else if (char === "\n") text.innerHTML += "<br>";
+      else text.innerHTML += `<span>${char}</span>`;
+    }
+  </script>
+ <!-- ==== Блок: Команда ==== -->
+<section class="yue-section">
+  <div class="yue-cards">
+
+    <!-- ==== Карточка №1 ==== -->
+    <div class="yue-card tilt" data-aos="zoom-in">
+      <img src="https://avatanplus.com/files/resources/original/58b6d21c2f42b15a8a24be22.png" alt="Віктор Буггурт" class="yue-img">
+      <div class="yue-info">
+        <h2>Віктор Буггурт</h2>
+        <p>Создатель сайта и просто пездатийший админ тгк "Православный коммунизм" и "Чистилище Секса".</p>
+      </div>
+    </div>
+
+    <!-- ==== Карточка №2 (Ваня yue!) ==== -->
+    <div class="yue-card tilt" data-aos="zoom-in">
+      <img src="https://media.tenor.com/2bsvUYTYxrAAAAAe/%D1%81%D0%BF%D0%BE%D0%BA%D0%BE%D0%B9%D0%BD%D0%BE%D0%B9-%D0%BD%D0%BE%D1%87%D0%B8.png" alt="Ваня yue" class="yue-img">
+      <div class="yue-info">
+        <h2>Ваня yue!</h2>
+        <p>Один из админов тгк "Православный Коммунизм" и исполнитель п£3датых треков!</p>
+      </div>
+    </div>
+
+    <!-- ==== Карточка №3 ==== -->
+    <div class="yue-card tilt" data-aos="zoom-in">
+      <img src="https://glack.fun/wp-content/uploads/2025/05/5abcad6c76555.jpg" alt="Навальный" class="yue-img">
+      <div class="yue-info">
+        <h2>Навальный</h2>
+        <p>Визуальный артист и дизайнер, создающий мрачные космические визуалы под музыку коллектива.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==== Spotify Альбом ==== -->
+  <div class="spotify-embed">
+    <iframe 
+      style="border-radius:12px"
+      src="https://open.spotify.com/embed/album/63gpojMKzUkv0TxgJhS4i6?utm_source=generator" 
+      width="100%" 
+      height="400" 
+      frameBorder="0" 
+      allowfullscreen="" 
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+      loading="lazy">
+    </iframe>
+  </div>
+</section>
+
+<style>
+/* ==== Атмосфера под альбом (красноватая) ==== */
+.yue-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 140px 0 0 0;
+  background: radial-gradient(circle at center, #3a0008 0%, #100003 100%);
+  animation: redFlow 20s ease-in-out infinite alternate;
+}
+
+@keyframes redFlow {
+  0% {
+    background: radial-gradient(circle at 40% 40%, #45000b 0%, #100003 100%);
+  }
+  50% {
+    background: radial-gradient(circle at 60% 60%, #5c0012 0%, #100003 100%);
+  }
+  100% {
+    background: radial-gradient(circle at 50% 30%, #3f0009 0%, #100003 100%);
+  }
+}
+
+/* ==== Сетка карточек ==== */
+.yue-cards {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  width: 100%;
+  padding: 0 20px;
+}
+
+/* ==== Карточки ==== */
+.yue-card {
+  background: linear-gradient(180deg, rgba(40, 0, 10, 0.95) 0%, rgba(20, 0, 5, 0.95) 100%);
+  border-radius: 30px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 350px;
+  transform-style: preserve-3d;
+  perspective: 1200px;
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+  cursor: none;
+}
+
+.yue-img {
+  width: 100%;
+  display: block;
+  border-bottom: 2px solid rgba(255, 50, 50, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.yue-info {
+  padding: 30px 25px;
+  text-align: center;
+  color: #ffcddd;
+  transform: translateZ(40px);
+}
+
+.yue-info h2 {
+  font-size: 1.8rem;
+  color: #ff5a6c;
+  margin-bottom: 12px;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(255, 90, 108, 0.15);
+}
+
+.yue-info p {
+  font-size: 1rem;
+  color: #e6b3b9;
+  line-height: 1.6;
+}
+
+/* ==== Spotify альбом ==== */
+.spotify-embed {
+  width: 100%;
+  background: rgba(20, 0, 5, 0.6);
+  backdrop-filter: blur(6px);
+  padding: 60px 0;
+  margin-top: 60px;
+}
+.spotify-embed iframe {
+  width: 100%;
+  max-width: none;
+  height: 400px;
+  display: block;
+  border: none;
+}
+
+/* ==== Кастомный курсор ==== */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  background: url('https://upload.wikimedia.org/wikipedia/commons/4/49/Emblem_of_Ukraine.svg') no-repeat center / contain;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease, width 0.15s ease, height 0.15s ease;
+}
+.custom-cursor.active {
+  width: 48px;
+  height: 48px;
+}
+</style>
+
+<script>
+// === Эффект наклона карточек ===
+document.querySelectorAll('.tilt').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    // Увеличен угол — эффект мощный, почти под боком
+    const rotateX = ((y - centerY) / centerY) * 40; 
+    const rotateY = ((x - centerX) / centerX) * 40;
+
+    card.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotateY}deg) scale(1.1)`;
+    card.style.boxShadow = `${-rotateY * 3}px ${rotateX * 3}px 60px rgba(255, 40, 60, 0.3)`;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`;
+    card.style.boxShadow = `0 0 20px rgba(255, 40, 60, 0.15)`;
+  });
+});
+
+// === Кастомный курсор ===
+const cursor = document.createElement('div');
+cursor.classList.add('custom-cursor');
+document.body.appendChild(cursor);
+
+document.addEventListener('mousemove', e => {
+  cursor.style.top = `${e.clientY}px`;
+  cursor.style.left = `${e.clientX}px`;
+});
+
+['a', 'button', '.yue-card'].forEach(sel => {
+  document.querySelectorAll(sel).forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+  });
+});
+
+</script>
+<!-- === Блок 1: Донаты с мигалками === -->
+<section class="donate-section" id="donate">
+  <div class="donate-cards">
+    <div class="donate-card">
+      <a href="https://www.donationalerts.com/r/orthodoxcommunism" target="_blank">
+        <img src="https://media.discordapp.net/attachments/1249481628569571348/1434624650725560502/7fc2f334-b8f3-49ee-b4e1-cab61feb0b58.png?ex=690901d2&is=6907b052&hm=87b4cefe89cecd951ed768ef5d95391cdf843c7674e99c43f83b05c73af2a201&=&format=webp&quality=lossless&width=667&height=775" alt="mono">
+      </a>
+    </div>
+    <div class="donate-card">
+      <a href="https://send.monobank.ua/jar/4hTNQstK6Z" target="_blank">
+        <img src="https://media.discordapp.net/attachments/1249481628569571348/1434624651157442590/logo37-edited-free_5555.png?ex=690901d2&is=6907b052&hm=95dbfd17ddbebfefca4419c56704e50ef91d2eeb94dc097dcceb66ee053eafb1&=&format=webp&quality=lossless" alt="alerts">
+      </a>
+    </div>
+    <div class="donate-card">
+      <a href="https://www.wwf.org.uk" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/56/Tiger.50.jpg" alt="donate3">
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- === Блок 2: Карточки NASA Style === -->
+<section class="nasa-section">
+  <div class="nasa-cards">
+    <div class="nasa-card">
+      <img src="https://media.discordapp.net/attachments/1249481628569571348/1434627620435132486/photo_2025-09-28_19-54-48.jpg?ex=69090496&is=6907b316&hm=298d8674a0e941ef56c275fda8af2f22c757c0270746f17887dbff23c6d42b3f&=&format=webp" alt="planet">
+      <div class="nasa-info">
+        <h3>Wixsesss</h3>
+        <p>Одна из главных админов тгк "Чистилище Секса", постит жіночі мємі.</p>
+        <button class="nasa-btn">Послать нахуй</button>
+      </div>
+    </div>
+
+    <div class="nasa-card">
+      <img src="https://media.discordapp.net/attachments/1249481628569571348/1434627620066169033/photo_2025-10-20_10-08-25.jpg?ex=69090496&is=6907b316&hm=3f9b6b733bbf8827911650554abd8bda441d831a5af458f453f557ce71d9bb07&=&format=webp" alt="galaxy">
+      <div class="nasa-info">
+        <h3>Леонід UNIS</h3>
+        <p>Глава админства тгк "Чистилище Секса", абсолютно новое поколение мемчиков для аутистов.</p>
+        <button class="nasa-btn">Послать нахуй</button>
+      </div>
+    </div>
+
+    <div class="nasa-card">
+      <img src="https://media.discordapp.net/attachments/1249481628569571348/1434629354050289876/photo_2025-07-30_15-38-49.jpg?ex=69090634&is=6907b4b4&hm=5e871df73110b49464f5eccaee177ecba5347687769b205c080b0900ffacfb71&=&format=webp&width=645&height=879" alt="blackhole">
+      <div class="nasa-info">
+        <h3>Петро</h3>
+        <p>Трусит черешню.</p>
+        <button class="nasa-btn">Похвалить сзади</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* === Блок 1: Мигалки === */
+.donate-section {
+  padding: 120px 0;
+  background: linear-gradient(90deg, #0000ff, #ff0000);
+  background-size: 400% 400%;
+  animation: policeFlash 0.3s linear infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes policeFlash {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.donate-cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+.donate-card img {
+  width: 200px;
+  border-radius: 20px;
+  filter: grayscale(100%) brightness(0.7);
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+}
+
+.donate-card img:hover {
+  transform: scale(1.2);
+  filter: grayscale(0%) brightness(1);
+}
+
+/* === Блок 2: NASA Style === */
+.nasa-section {
+  background: radial-gradient(circle at center, #00ff99 0%, #003322 100%);
+  padding: 140px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 100px rgba(0,255,150,0.3);
+  color: #fff;
+}
+
+.nasa-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1200px;
+}
+
+.nasa-card {
+  background: rgba(0, 40, 30, 0.9);
+  border-radius: 20px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 340px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.nasa-card img {
+  width: 100%;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.nasa-info {
+  padding: 25px;
+  text-align: center;
+}
+
+.nasa-info h3 {
+  color: #00ffcc;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.nasa-info p {
+  font-size: 1rem;
+  color: #ccffee;
+  margin-bottom: 20px;
+}
+
+.nasa-btn {
+  background-color: #00ffcc;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: #002222;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.nasa-btn:hover {
+  background-color: #66ffe0;
+  transform: scale(1.1);
+}
+
+/* === Пластилиновая анимация === */
+@keyframes stretchCard {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.2, 0.85); }
+  60% { transform: scale(0.9, 1.15); }
+  100% { transform: scale(1); }
+}
+
+.stretching {
+  animation: stretchCard 1s ease;
+}
+</style>
+
+<script>
+// === Пластилиновая анимация для NASA блока ===
+document.querySelectorAll('.nasa-card').forEach((card, index) => {
+  const btn = card.querySelector('.nasa-btn');
+  
+  if (index === 0 || index === 1) {
+    // Для первых двух карточек анимация только на кнопке
+    btn.addEventListener('click', () => {
+      btn.classList.remove('stretching');
+      void btn.offsetWidth; // перезапуск анимации
+      btn.classList.add('stretching');
+    });
+  } else if (index === 2) {
+    // Для третьей карточки анимация на всей карточке
+    card.addEventListener('click', () => {
+      card.classList.remove('stretching');
+      void card.offsetWidth;
+      card.classList.add('stretching');
+    });
+  }
+});
+</script>
+
+</body>
+</html>
