@@ -279,14 +279,19 @@
   <!-- Новый блок -->
   <section class="info-section" data-aos="fade-up">
     <div class="info-text" id="animated-text">
-      Илья — Админ, глава, хозяин, милый 
-      администратор и основатель тг канала 
-      "Православный Коммунизм"
-      Шарит за все Deep-Sea Prisoner, Milk Girl, 
-      Не отказывается від заборонених речовин.
-      ̶Д̶у̶ж̶е̶ ̶р̶о̶з̶у̶м̶н̶и̶й̶, поедет учиться в Польшу
-      Нравится: Штефанов, Стас Ай Как просто,.. 
-      Ну а дальше не важно…
+  Илья — Админ, глава, хозяин,
+  милый администратор и основатель
+  тг канала "Православный Коммунизм"
+
+  Шарит за все Deep-Sea Prisoner, s3x
+  Не отказывается від 
+  заборонених речовин.
+
+  Д̶у̶ж̶е̶ ̶р̶о̶з̶у̶м̶н̶и̶й̶, поедет учиться
+  в Польшу
+  Нравится: Штефанов, Егор Погром.
+
+  Ну а дальше не важно…
     </div>
 
     <div class="info-image">
@@ -740,8 +745,177 @@ document.querySelectorAll('.nasa-card').forEach((card, index) => {
   }
 });
 </script>
+  <!-- ... весь твій JS ... -->
+</script>
 
+<!-- === ПІДКЛЮЧЕННЯ ТВОГО ШРИФТУ === -->
+<style>
+  @font-face {
+    font-family: 'eUkraineHead';
+    src: url('/glack-site/fonts/e-UkraineHead-Bold.otf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  * {
+    font-family: 'eUkraineHead', 'Segoe UI', sans-serif !important;
+    font-weight: bold !important;
+  }
+</style>
+<!-- === КАСТОМНИЙ КУРСОР З ГЕРБОМ УКРАЇНИ (БЕЗ СТРІЛКИ) === -->
+<style>
+  /* Повністю ховаємо стандартний курсор на всьому сайті */
+  * {
+    cursor: none !important;
+  }
+
+  /* Кастомний курсор — герб України */
+  .custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/7/79/%D0%A2%D1%80%D0%B8%D0%B7%D1%83%D0%B1.png') no-repeat center / contain;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.1s ease, height 0.1s ease;
+    mix-blend-mode: difference;
+  }
+
+  .custom-cursor.active {
+    width: 30px;
+    height: 30px;
+  }
+</style>
+
+<script>
+  // Створюємо курсор
+  constcursor = document.createElement('div');
+  cursor.classList.add('custom-cursor');
+  document.body.appendChild(cursor);
+
+  // Плавний рух
+  document.addEventListener('mousemove', e => {
+    cursor.style.top = `${e.clientY}px`;
+    cursor.style.left = `${e.clientX}px`;
+  });
+
+  // Збільшення на всіх клікабельних елементах
+  const clickableSelectors = [
+    'a', 'button', 'img', 
+    '.yue-card', '.nasa-card', '.top-buttons a', 
+    '.nasa-btn', '.info-image img', '.main-btn', 
+    '.donate-card', '[onclick]'
+  ];
+
+  clickableSelectors.forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+    });
+  });
+</script>
+<!-- === AGE GATE (Оновлено: світліший блюр + RGB кнопки) === -->
+<div id="age-gate" style="
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.7); /* Світліший блюр */
+  backdrop-filter: blur(15px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  color: white;
+  font-family: 'eUkraineHead', sans-serif;
+  text-align: center;
+  transition: opacity 0.5s ease;
+">
+  <h1 style="
+    font-size: 3.5rem;
+    margin-bottom: 50px;
+    text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
+    animation: pulse 2s infinite;
+  ">
+    16 РОКІВ Є ПІДАР?
+  </h1>
+
+  <div style="display: flex; gap: 40px; flex-wrap: wrap; justify-content: center;">
+
+    <!-- КНОПКА 1: ГІФКА + RGB ДИСКО ФОН -->
+    <button id="enter-btn" style="
+      width: 160px; height: 160px;
+      background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff00ff);
+      background-size: 400% 400%;
+      animation: rgbDisco 3s linear infinite;
+      border: none;
+      border-radius: 20px;
+      padding: 0;
+      cursor: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    " onmouseover="this.style.transform='scale(1.1)'" 
+       onmouseout="this.style.transform='scale(1)'">
+      <img src="https://images.cooltext.com/5744245.gif" 
+           alt="Enter" 
+           style="width: 100px; height: 100px; pointer-events: none;">
+    </button>
+
+    <!-- КНОПКА 2: "Нє, я не такой))" — темно-червоний фон -->
+    <button style="
+      background: #8B0000; /* Темно-червоний */
+      color: white;
+      font-size: 1.5rem;
+      padding: 20px 40px;
+      border: none;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: none;
+      box-shadow: 0 0 15px rgba(139, 0, 0, 0.6);
+      transition: all 0.3s ease;
+    " onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 25px rgba(255,0,0,0.8)'" 
+        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 15px rgba(139,0,0,0.6)'"
+        onclick="window.location.href='https://www.youtube.com/kids'">
+      Нє, я не такой))
+    </button>
+  </div>
+</div>
+
+<style>
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  /* RGB ДИСКО ФОН (тільки всередині кнопки) */
+  @keyframes rgbDisco {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+</style>
+
+<script>
+  // Знімає вікно при кліку на RGB-кнопку
+  document.getElementById('enter-btn').addEventListener('click', () => {
+    const gate = document.getElementById('age-gate');
+    gate.style.opacity = '0';
+    setTimeout(() => gate.remove(), 500);
+    document.body.style.overflow = 'auto';
+  });
+
+  // Блокуємо скрол
+  document.body.style.overflow = 'hidden';
+</script>
 </body>
 </html>
-
+</body>
+</html>
 
