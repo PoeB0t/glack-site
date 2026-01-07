@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glack - Choose Language</title>
+    <title>Glack - Выбор языка</title>
     <style>
         * {
             margin: 0;
@@ -13,9 +13,9 @@
 
         body, html {
             height: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
             background-color: #000;
+            font-family: sans-serif;
         }
 
         .container {
@@ -25,116 +25,110 @@
             position: relative;
         }
 
-        /* Общие стили для половин экрана */
+        /* Общие стили для сторон */
         .lang-side {
             flex: 1;
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
             text-decoration: none;
-            transition: flex 0.5s ease, filter 0.5s ease;
-            position: relative;
-            background-size: cover;
-            background-position: center;
+            transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1);
             overflow: hidden;
         }
 
-        /* Эффект при наведении (расширение стороны) */
-        .lang-side:hover {
-            flex: 1.5;
-            filter: brightness(1.2) contrast(1.1);
-        }
-
-        /* Затемнение, чтобы текст читался */
-        .lang-side::before {
-            content: "";
+        /* ФОНОВОЕ ИЗОБРАЖЕНИЕ (делаем отдельным слоем для размытия) */
+        .bg-image {
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            transition: background 0.5s ease;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: blur(5px) brightness(0.5); /* Начальное размытие и темнота */
+            transition: filter 0.6s ease, transform 0.6s ease;
+            z-index: 1;
         }
 
-        .lang-side:hover::before {
-            background: rgba(0, 0, 0, 0.1);
+        /* ССЫЛКИ НА ФОНЫ (ЗАМЕНИ ТУТ) */
+        .ru-side .bg-image {
+            background-image: url('https://media.tenor.com/uojaxPsh4u8AAAAC/y6richo.gif'); 
         }
 
-        /* Ссылки на фоны */
-        .ru-side {
-            background-image: url('ССЫЛКА_НА_ФОН_РУССКИЙ'); /* Вставьте ссылку сюда */
-            border-right: 2px solid rgba(255,255,255,0.1);
+        .uk-side .bg-image {
+            background-image: url('https://media1.tenor.com/m/T_jEgHhQB1cAAAAC/зеленский-украина.gif');
         }
 
-        .uk-side {
-            background-image: url('ССЫЛКА_НА_ФОН_УКРАИНСКИЙ'); /* Вставьте ссылку сюда */
-        }
-
-        /* Текст внутри карточек */
-        .lang-side span {
+        /* ПЕРСОНАЖ / СИМВОЛ (КОЛОБОК) */
+        .character-img {
             position: relative;
-            z-index: 2;
-            color: white;
-            font-size: 3rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            text-shadow: 0 5px 15px rgba(0,0,0,0.8);
-            transition: transform 0.3s ease;
+            z-index: 3;
+            width: 300px; /* Размер твоего персонажа */
+            height: auto;
+            transition: transform 0.5s ease, filter 0.5s ease;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
         }
 
-        .lang-side:hover span {
-            transform: scale(1.2);
+        /* ЭФФЕКТЫ ПРИ НАВЕДЕНИИ */
+        .lang-side:hover {
+            flex: 1.6; /* Расширение стороны */
         }
 
-        /* Кнопка-логотип посередине */
+        .lang-side:hover .bg-image {
+            filter: blur(0px) brightness(0.8); /* Убираем размытие фона */
+            transform: scale(1.05); /* Легкое приближение фона */
+        }
+
+        .lang-side:hover .character-img {
+            transform: scale(1.1) translateY(-10px); /* Колобок увеличивается и чуть "взлетает" */
+        }
+
+        /* ЦЕНТРАЛЬНАЯ КНОПКА-ЛОГОТИП */
         .center-logo {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 10;
-            width: 150px; /* Размер логотипа */
-            height: 150px;
-            pointer-events: none; /* Чтобы кнопка не мешала кликать по сторонам */
+            width: 120px;
+            pointer-events: none;
         }
 
         .center-logo img {
             width: 100%;
-            height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
             animation: pulse 2s infinite ease-in-out;
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255,255,255,0.3)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 25px rgba(255,255,255,0.6)); }
         }
 
-        /* Адаптивность для мобилок */
+        /* Мобильная версия */
         @media (max-width: 768px) {
             .container { flex-direction: column; }
-            .lang-side { border-right: none; border-bottom: 2px solid rgba(255,255,255,0.1); }
-            .lang-side span { font-size: 2rem; }
+            .character-img { width: 150px; }
+            .center-logo { width: 80px; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Левая часть (Русский) -->
+        <!-- ЛЕВАЯ КАРТОЧКА (RU) -->
         <a href="/ru.html" class="lang-side ru-side">
-            <span>RU</span>
+            <div class="bg-image"></div>
+            <img src="ССЫЛКА_НА_РУ_КОЛОБКА_PNG" alt="RU Character" class="character-img">
         </a>
 
-        <!-- Логотип по центру (PNG) -->
+        <!-- ЛОГОТИП ПО ЦЕНТРУ -->
         <div class="center-logo">
-            <img src="ССЫЛКА_НА_ВАШУ_PNG_ФОТКУ" alt="Logo"> <!-- Вставьте ссылку сюда -->
+            <img src="ССЫЛКА_НА_ЦЕНТРАЛЬНЫЙ_ЛОГО" alt="Logo">
         </div>
 
-        <!-- Правая часть (Українська) -->
+        <!-- ПРАВАЯ КАРТОЧКА (UA) -->
         <a href="/uk.html" class="lang-side uk-side">
-            <span>UA</span>
+            <div class="bg-image"></div>
+            <img src="ССЫЛКА_НА_УА_КОЛОБКА_PNG" alt="UA Character" class="character-img">
         </a>
     </div>
 
