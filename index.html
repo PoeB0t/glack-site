@@ -49,7 +49,7 @@
             z-index: 1;
         }
 
-        /* ССЫЛКИ НА ФОНЫ (ЗАМЕНИ ТУТ) */
+        /* ССЫЛКИ НА ФОНЫ */
         .ru-side .bg-image {
             background-image: url('https://media.tenor.com/uojaxPsh4u8AAAAC/y6richo.gif'); 
         }
@@ -90,12 +90,13 @@
             transform: translate(-50%, -50%);
             z-index: 10;
             width: 120px;
-            pointer-events: none;
+            /* pointer-events: auto; включен по умолчанию для ссылок, убрали none */
         }
 
         .center-logo img {
             width: 100%;
             animation: pulse 2s infinite ease-in-out;
+            display: block;
         }
 
         @keyframes pulse {
@@ -120,10 +121,10 @@
             <img src="https://github.com/PoeB0t/glack-site/blob/main/images/scale_1200.webp?raw=true" alt="RU Character" class="character-img">
         </a>
 
-        <!-- ЛОГОТИП ПО ЦЕНТРУ -->
-        <div class="center-logo">
-            <img src="https://png.pngtree.com/png-vector/20231223/ourmid/pngtree-brown-chicken-egg-isolated-on-white-background-diet-png-image_11296212.png" alt=" ">
-        </div>
+        <!-- ЛОГОТИП ПО ЦЕНТРУ (ТЕПЕРЬ ССЫЛКА) -->
+        <a href="https://t.me/orthodoxcommunism" target="_blank" class="center-logo">
+            <img src="https://png.pngtree.com/png-vector/20231223/ourmid/pngtree-brown-chicken-egg-isolated-on-white-background-diet-png-image_11296212.png" alt="Telegram Logo">
+        </a>
 
         <!-- ПРАВАЯ КАРТОЧКА (UA) -->
         <a href="/uk.html" class="lang-side uk-side">
