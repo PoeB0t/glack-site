@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xbox Avatar Crusher Party</title>
+    <title>Xbox Avatar Crusher - Blood Edition</title>
     <style>
-        /* Анимация медленного RGB фона */
         @keyframes underwaterRGB {
             0% { background-color: #001f3f; }
             25% { background-color: #004d40; }
@@ -25,7 +24,7 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
-            transition: background-color 20s ease-in-out;
+            perspective: 1000px; /* Для 3D эффекта падения */
         }
 
         .selector-container {
@@ -45,7 +44,7 @@
             align-items: center;
             background: rgba(0, 0, 0, 0.4);
             position: relative;
-            overflow: hidden;
+            /* Убрали overflow: hidden, чтобы кровь могла выходить за края */
             box-shadow: 0 0 30px rgba(16, 124, 16, 0.5);
         }
 
@@ -53,44 +52,39 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
-            transform-origin: bottom; /* Чтобы сжималось к низу */
-        }
-        
-        .avatar-img:hover {
-            transform: scale(1.05);
+            z-index: 2;
         }
 
-        .avatar-name {
-            margin-top: 30px;
-            font-size: 30px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #ffffff;
-            text-shadow: 0 0 10px #107c10;
+        /* ЭФФЕКТ ПАДЕНИЯ НА ПОЛ */
+        .squashed {
+            transform: rotateX(70deg) translateY(100px) scale(1.2) !important;
+            filter: brightness(0.5) sepia(1) saturate(5) hue-rotate(-50deg); /* Окрашивание в красный при ударе */
         }
 
-        .arrow-btn {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 2px solid #107c10;
-            color: #107c10;
-            font-size: 60px;
-            padding: 10px 25px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 0 15px rgba(16, 124, 16, 0.3);
+        /* КРОВЬ */
+        #blood {
+            position: absolute;
+            width: 500px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1;
+            transition: opacity 0.1s;
+            transform: translateY(100px);
         }
 
-        .arrow-btn:hover {
-            background-color: #107c10;
-            color: #ffffff;
-            transform: scale(1.1);
+        .blood-visible {
+            opacity: 1 !important;
+            animation: splash 0.5s ease-out;
         }
 
-        /* Кирпич */
+        @keyframes splash {
+            0% { transform: translateY(100px) scale(0.5); }
+            100% { transform: translateY(100px) scale(1.1); }
+        }
+
+        /* КИРПИЧ */
         #brick {
             position: absolute;
             width: 220px; 
@@ -99,6 +93,40 @@
             transform: translateX(-50%);
             z-index: 100;
             pointer-events: none;
+        }
+
+        .brick-fall {
+            animation: fall 0.3s forwards ease-in;
+        }
+
+        @keyframes fall {
+            0% { top: -500px; transform: translateX(-50%) rotate(0deg); }
+            100% { top: 220px; transform: translateX(-50%) rotate(15deg); } /* Кирпич ложится сверху под углом */
+        }
+
+        .avatar-name {
+            margin-top: 30px;
+            font-size: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #ffffff;
+            text-shadow: 0 0 10px #107c10;
+        }
+
+        .arrow-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #107c10;
+            color: #107c10;
+            font-size: 60px;
+            padding: 10px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .arrow-btn:hover {
+            background: #107c10;
+            color: #ffffff;
         }
 
         .crush-btn {
@@ -110,41 +138,21 @@
             font-weight: bold;
             cursor: pointer;
             border-radius: 5px;
-            text-transform: uppercase;
             font-size: 20px;
             box-shadow: 0 0 20px rgba(232, 17, 35, 0.5);
-        }
-
-        .crush-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* ИСПРАВЛЕНО: Давит меньше (0.5 вместо 0.1) */
-        .squashed {
-            transform: scaleY(0.5) !important;
-            filter: contrast(1.2);
-        }
-
-        .brick-fall {
-            animation: fall 0.3s forwards ease-in;
-        }
-
-        /* ИСПРАВЛЕНО: Кирпич останавливается чуть выше, чтобы не закрывать всё фото */
-        @keyframes fall {
-            0% { top: -500px; }
-            100% { top: 30px; } 
         }
     </style>
 </head>
 <body>
 
-    <h1 style="margin-bottom: 50px; text-shadow: 0 0 15px rgba(255,255,255,0.5);">ВЫБЕРИ АВАТАР</h1>
+    <h1 style="margin-bottom: 50px;">ВЫБЕРИ АВАТАР</h1>
 
     <div class="selector-container">
         <button class="arrow-btn" onclick="prev()">❮</button>
         
         <div class="avatar-window" id="window">
-            <img src="https://github.com/PoeB0t/glack-site/blob/main/images/i.png?raw=true" id="brick" alt="кирпич">
+            <img src="github.com" id="brick" alt="кирпич">
+            <img src="www.pngarts.com" id="blood">
             <img src="" id="avatar" class="avatar-img">
         </div>
 
@@ -153,29 +161,31 @@
 
     <div id="name" class="avatar-name">Загрузка...</div>
 
-    <button class="crush-btn" onclick="crushIt()">РАЗДАВИТЬ КИРПИЧОМ</button>
+    <button class="crush-btn" onclick="crushIt()">РАЗДАВИТЬ</button>
 
     <script>
         const avatars = [
-            { name: "Sigmachad", url: "https://github.com/PoeB0t/glack-site/blob/main/images/sigmachad.jpg?raw=true" },
-            { name: "∅ ᴀнтuшkᴇдд", url: "https://github.com/PoeB0t/glack-site/blob/main/images/шкед.jpg?raw=true" },
-            { name: "dxvt", url: "https://github.com/PoeB0t/glack-site/blob/main/images/dxvt.jpg?raw=true" },
-            { name: "ultravi0lence", url: "https://github.com/PoeB0t/glack-site/blob/main/images/ultraviolence.jpg?raw=true" },
-            { name: "да ня", url: "https://github.com/PoeB0t/glack-site/blob/main/images/да%20ня.jpg?raw=true" },
-            { name: "не дело", url: "https://github.com/PoeB0t/glack-site/blob/main/images/не%20дело.jpg?raw=true" },
-            { name: "георгий жарков", url: "https://github.com/PoeB0t/glack-site/blob/main/images/георгий%20жарков.jpg?raw=true" },
-            { name: "Ваня свердфрейр", url: "https://github.com/PoeB0t/glack-site/blob/main/images/ваня.jpg?raw=true" },
-            { name: "мыслительный фрик", url: "https://github.com/PoeB0t/glack-site/blob/main/images/мыслительный%20фрик.jpg?raw=true" }
+            { name: "Sigmachad", url: "github.com" },
+            { name: "∅ ᴀнтuшkᴇдд", url: "github.com" },
+            { name: "dxvt", url: "github.com" },
+            { name: "ultravi0lence", url: "github.com" },
+            { name: "да ня", url: "github.com" },
+            { name: "не дело", url: "github.com" },
+            { name: "георгий жарков", url: "github.com" },
+            { name: "Ваня свердфрейр", url: "github.com" },
+            { name: "мыслительный фрик", url: "github.com" }
         ];
 
         let currentIndex = 0;
         const avatarImg = document.getElementById('avatar');
         const nameText = document.getElementById('name');
         const brick = document.getElementById('brick');
+        const blood = document.getElementById('blood');
 
         function updateDisplay() {
             avatarImg.classList.remove('squashed');
             brick.classList.remove('brick-fall');
+            blood.classList.remove('blood-visible');
             brick.style.top = "-500px";
 
             avatarImg.src = avatars[currentIndex].url;
@@ -195,8 +205,11 @@
         function crushIt() {
             if (brick.classList.contains('brick-fall')) return; 
             brick.classList.add('brick-fall');
+            
+            // Момент соприкосновения
             setTimeout(() => {
                 avatarImg.classList.add('squashed');
+                blood.classList.add('blood-visible');
             }, 250);
         }
 
