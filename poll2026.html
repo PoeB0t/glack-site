@@ -63,15 +63,21 @@
             filter: brightness(0.5) sepia(1) saturate(5) hue-rotate(-50deg); /* Окрашивание в красный при ударе */
         }
 
-        /* КРОВЬ */
         #blood {
-            position: absolute;
-            width: 500px;
-            opacity: 0;
-            pointer-events: none;
-            z-index: 1;
-            transition: opacity 0.1s;
-            transform: translateY(100px);
+    position: absolute;
+    width: 0px; /* Начинаем с нулевого размера */
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1; /* Под картинкой */
+    filter: drop-shadow(0 0 10px red);
+    transition: width 0.5s ease-out, opacity 0.2s;
+    transform: translateY(120px); /* Позиция под упавшей фоткой */
+}
+
+.blood-visible {
+    opacity: 1 !important;
+    width: 550px !important; /* Кровь "растекается" до этого размера */
+}
         }
 
         .blood-visible {
