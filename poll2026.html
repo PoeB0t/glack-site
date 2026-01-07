@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xbox Avatar Crusher</title>
+    <title>Xbox Avatar Crusher Party</title>
     <style>
+        /* Анимация медленного RGB фона */
+        @keyframes underwaterRGB {
+            0% { background-color: #001f3f; } /* Темно-синий */
+            25% { background-color: #004d40; } /* Темно-бирюзовый */
+            50% { background-color: #3d003d; } /* Темно-пурпурный */
+            75% { background-color: #332a00; } /* Темно-желтый */
+            100% { background-color: #001f3f; }
+        }
+
         body {
-            background-color: #1a1a1a;
+            /* Применяем анимацию фона на 20 секунд */
+            animation: underwaterRGB 20s infinite alternate ease-in-out;
             color: white;
             font-family: 'Segoe UI', sans-serif;
             display: flex;
@@ -16,28 +26,30 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
+            transition: background-color 20s ease-in-out;
         }
 
         /* Контейнер для выбора */
         .selector-container {
             display: flex;
             align-items: center;
-            gap: 30px;
+            gap: 50px; /* Увеличили расстояние */
             position: relative;
         }
 
         /* Рамка для фото */
         .avatar-window {
-            width: 250px;
-            height: 250px;
-            border: 4px solid #107c10; /* Xbox Green */
+            width: 400px; /* Увеличили размер окна */
+            height: 400px;
+            border: 4px solid #107c10;
             border-radius: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #2a2a2a;
+            background: rgba(0, 0, 0, 0.4); /* Полупрозрачный фон */
             position: relative;
-            overflow: visible;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(16, 124, 16, 0.5); /* Xbox свечение */
         }
 
         .avatar-img {
@@ -45,38 +57,49 @@
             height: 100%;
             object-fit: cover;
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            /* Добавлено приближение при наведении */
+            cursor: pointer;
+        }
+        
+        .avatar-img:hover {
+            transform: scale(1.1);
         }
 
         /* Текст под фото */
         .avatar-name {
-            margin-top: 20px;
-            font-size: 24px;
+            margin-top: 30px;
+            font-size: 30px; /* Увеличили размер текста */
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #107c10;
+            letter-spacing: 3px;
+            color: #ffffff;
+            text-shadow: 0 0 10px #107c10;
         }
 
         /* Кнопки стрелок */
         .arrow-btn {
-            background: none;
-            border: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid #107c10;
             color: #107c10;
-            font-size: 50px;
+            font-size: 60px; /* Увеличили размер кнопок */
+            padding: 10px 25px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(16, 124, 16, 0.3);
         }
 
         .arrow-btn:hover {
+            background-color: #107c10;
             color: #ffffff;
-            transform: scale(1.2);
+            transform: scale(1.1);
         }
 
         /* Кирпич */
         #brick {
             position: absolute;
-            width: 150px;
-            top: -500px; /* Спрятан сверху */
+            width: 200px; /* Сделали кирпич больше */
+            top: -500px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 100;
@@ -85,8 +108,8 @@
 
         /* Кнопка "Раздавить" */
         .crush-btn {
-            margin-top: 40px;
-            padding: 15px 30px;
+            margin-top: 50px;
+            padding: 20px 40px;
             background-color: #e81123;
             color: white;
             border: none;
@@ -94,6 +117,8 @@
             cursor: pointer;
             border-radius: 5px;
             text-transform: uppercase;
+            font-size: 20px;
+            box-shadow: 0 0 20px rgba(232, 17, 35, 0.5);
         }
 
         .crush-btn:active {
@@ -113,20 +138,20 @@
 
         @keyframes fall {
             0% { top: -500px; }
-            100% { top: 50px; } /* Падает прямо на рамку */
+            100% { top: 100px; } /* Падает прямо на центр */
         }
     </style>
 </head>
 <body>
 
-    <h1 style="margin-bottom: 50px;">ВЫБЕРИ ЖЕРТВУ</h1>
+    <h1 style="margin-bottom: 50px;">ВЫБЕРИ АВАТАР</h1>
 
     <div class="selector-container">
         <button class="arrow-btn" onclick="prev()">❮</button>
         
         <div class="avatar-window" id="window">
-            <!-- Кирпич (картинка) -->
-            <img src="https://static.vecteezy.com/system/resources/previews/048/677/210/large_2x/side-view-of-old-red-or-orange-brick-isolated-with-clipping-path-in-file-format-png.png" id="brick" alt="кирпич">
+            <!-- Кирпич (картинка PNG из интернета) -->
+            <img src="www.freeiconspng.com" id="brick" alt="кирпич">
             
             <img src="" id="avatar" class="avatar-img">
         </div>
@@ -139,20 +164,17 @@
     <button class="crush-btn" onclick="crushIt()">РАЗДАВИТЬ КИРПИЧОМ</button>
 
     <script>
-        // СПИСОК ФОТО И ИМЕН (Сюда вставляй свои ссылки)
+        // СПИСОК ФОТО И ИМЕН (9 штук)
         const avatars = [
-            {
-                name: "Колобок",
-                url: "https://avatars.mds.yandex.net/i?id=151e04e80764df185ae8f879a777a876_l-11543319-images-thumbs&n=13"
-            },
-            {
-                name: "Степан",
-                url: "github.com"
-            },
-            {
-                name: "Яйцо",
-                url: "png.pngtree.com"
-            }
+            { name: "Колобок", url: "github.com" },
+            { name: "Степан", url: "github.com" },
+            { name: "Яйцо", url: "png.pngtree.com" },
+            { name: "Качок", url: "i.imgur.com" },
+            { name: "Киберкот", url: "i.imgur.com" },
+            { name: "Лягушка", url: "i.imgur.com" },
+            { name: "Мем", url: "i.imgur.com" },
+            { name: "Грусть", url: "i.imgur.com" },
+            { name: "Девятый", url: "i.imgur.com" }
         ];
 
         let currentIndex = 0;
@@ -161,12 +183,10 @@
         const brick = document.getElementById('brick');
 
         function updateDisplay() {
-            // Сбрасываем эффекты раздавливания
             avatarImg.classList.remove('squashed');
             brick.classList.remove('brick-fall');
             brick.style.top = "-500px";
 
-            // Ставим новую картинку
             avatarImg.src = avatars[currentIndex].url;
             nameText.innerText = avatars[currentIndex].name;
         }
@@ -182,17 +202,13 @@
         }
 
         function crushIt() {
-            // Запускаем кирпич
             brick.classList.add('brick-fall');
-
-            // Через 350мс (когда кирпич долетит) плющим картинку
             setTimeout(() => {
                 avatarImg.classList.add('squashed');
-                // Звук удара можно добавить тут
             }, 350);
         }
 
-        // Инициализация
+        // Инициализация при загрузке страницы
         updateDisplay();
     </script>
 </body>
