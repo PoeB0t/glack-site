@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xbox Avatar Crusher - Blood Edition</title>
+    <title>Xbox Avatar Crusher - Pixel Blood</title>
     <style>
         @keyframes underwaterRGB {
             0% { background-color: #001f3f; }
@@ -24,7 +24,7 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
-            perspective: 1000px; /* Для 3D эффекта падения */
+            perspective: 1000px;
         }
 
         .selector-container {
@@ -44,7 +44,6 @@
             align-items: center;
             background: rgba(0, 0, 0, 0.4);
             position: relative;
-            /* Убрали overflow: hidden, чтобы кровь могла выходить за края */
             box-shadow: 0 0 30px rgba(16, 124, 16, 0.5);
         }
 
@@ -56,38 +55,36 @@
             cursor: pointer;
             z-index: 2;
         }
-
-        /* ЭФФЕКТ ПАДЕНИЯ НА ПОЛ */
+        
         .squashed {
             transform: rotateX(70deg) translateY(100px) scale(1.2) !important;
-            filter: brightness(0.5) sepia(1) saturate(5) hue-rotate(-50deg); /* Окрашивание в красный при ударе */
+            filter: brightness(0.5) sepia(1) saturate(5) hue-rotate(-50deg);
         }
 
+        /* ПИКСЕЛЬНАЯ КРОВЬ ЧЕРЕЗ CSS */
         #blood {
-    position: absolute;
-    width: 0px; /* Начинаем с нулевого размера */
-    opacity: 0;
-    pointer-events: none;
-    z-index: 1; /* Под картинкой */
-    filter: drop-shadow(0 0 10px red);
-    transition: width 0.5s ease-out, opacity 0.2s;
-    transform: translateY(120px); /* Позиция под упавшей фоткой */
-}
-
-.blood-visible {
-    opacity: 1 !important;
-    width: 550px !important; /* Кровь "растекается" до этого размера */
-}
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1;
+            transform: translateY(140px); /* Позиция под упавшим фото */
+            width: 10px;
+            height: 10px;
+            background: #9a0000; /* Темно-красный пиксель */
+            transition: opacity 0.1s;
+            /* Создаем много пикселей с помощью тени */
+            box-shadow: 
+                20px 0 #9a0000, 40px 0 #9a0000, -10px 10px #9a0000, 30px 10px #9a0000,
+                5px 20px #9a0000, 25px 20px #9a0000, -20px 25px #9a0000, 
+                0px 35px #9a0000, 45px 35px #9a0000, -5px 40px #9a0000,
+                15px 40px #9a0000, 35px 40px #9a0000, 50px 50px #9a0000,
+                -20px 55px #9a0000, 20px 60px #9a0000, 40px 60px #9a0000,
+                -5px 65px #9a0000, 10px 70px #9a0000, 30px 70px #9a0000;
         }
 
         .blood-visible {
             opacity: 1 !important;
-            animation: splash 0.5s ease-out;
-        }
-
-        @keyframes splash {
-            0% { transform: translateY(100px) scale(0.5); }
-            100% { transform: translateY(100px) scale(1.1); }
+            animation: none !important; /* Убираем прошлую анимацию */
         }
 
         /* КИРПИЧ */
@@ -107,45 +104,19 @@
 
         @keyframes fall {
             0% { top: -500px; transform: translateX(-50%) rotate(0deg); }
-            100% { top: 220px; transform: translateX(-50%) rotate(15deg); } /* Кирпич ложится сверху под углом */
+            100% { top: 220px; transform: translateX(-50%) rotate(15deg); }
         }
 
+        /* Остальные стили не менялись */
         .avatar-name {
-            margin-top: 30px;
-            font-size: 30px;
-            font-weight: bold;
-            text-transform: uppercase;
-            color: #ffffff;
-            text-shadow: 0 0 10px #107c10;
+            margin-top: 30px; font-size: 30px; font-weight: bold; text-transform: uppercase; letter-spacing: 3px; color: #ffffff; text-shadow: 0 0 10px #107c10;
         }
-
         .arrow-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #107c10;
-            color: #107c10;
-            font-size: 60px;
-            padding: 10px 25px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
+            background: rgba(255, 255, 255, 0.1); border: 2px solid #107c10; color: #107c10; font-size: 60px; padding: 10px 25px; border-radius: 5px; cursor: pointer; transition: 0.3s;
         }
-
-        .arrow-btn:hover {
-            background: #107c10;
-            color: #ffffff;
-        }
-
+        .arrow-btn:hover { background: #107c10; color: #ffffff; }
         .crush-btn {
-            margin-top: 50px;
-            padding: 20px 40px;
-            background-color: #e81123;
-            color: white;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 20px;
-            box-shadow: 0 0 20px rgba(232, 17, 35, 0.5);
+            margin-top: 50px; padding: 20px 40px; background-color: #e81123; color: white; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; font-size: 20px; box-shadow: 0 0 20px rgba(232, 17, 35, 0.5);
         }
     </style>
 </head>
@@ -157,8 +128,9 @@
         <button class="arrow-btn" onclick="prev()">❮</button>
         
         <div class="avatar-window" id="window">
-            <img src="https://github.com/PoeB0t/glack-site/blob/main/images/i.png?raw=true" alt="кирпич">
-            <img src="www.freeiconspng.com" id="blood">
+            <img src="github.com" id="brick" alt="кирпич">
+            <!-- Кровь теперь генерируется CSS-ом -->
+            <div id="blood"></div>
             <img src="" id="avatar" class="avatar-img">
         </div>
 
@@ -186,7 +158,7 @@
         const avatarImg = document.getElementById('avatar');
         const nameText = document.getElementById('name');
         const brick = document.getElementById('brick');
-        const blood = document.getElementById('blood');
+        const blood = document.getElementById('blood'); // Теперь это DIV
 
         function updateDisplay() {
             avatarImg.classList.remove('squashed');
@@ -212,7 +184,6 @@
             if (brick.classList.contains('brick-fall')) return; 
             brick.classList.add('brick-fall');
             
-            // Момент соприкосновения
             setTimeout(() => {
                 avatarImg.classList.add('squashed');
                 blood.classList.add('blood-visible');
