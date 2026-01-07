@@ -61,36 +61,44 @@
             filter: brightness(0.5) sepia(1) saturate(5) hue-rotate(-50deg);
         }
 
-        /* ПИКСЕЛЬНАЯ КРОВЬ ЧЕРЕЗ CSS */
+        /* ПИКСЕЛЬНАЯ КРОВЬ С АНИМАЦИЕЙ ВЗРЫВА */
         #blood {
             position: absolute;
             opacity: 0;
             pointer-events: none;
             z-index: 1;
-            transform: translateY(140px); /* Позиция под упавшим фото */
-            width: 10px;
-            height: 10px;
-            background: #9a0000; /* Темно-красный пиксель */
-            transition: opacity 0.1s;
-            /* Создаем много пикселей с помощью тени */
-            box-shadow: 
-                20px 0 #9a0000, 40px 0 #9a0000, -10px 10px #9a0000, 30px 10px #9a0000,
-                5px 20px #9a0000, 25px 20px #9a0000, -20px 25px #9a0000, 
-                0px 35px #9a0000, 45px 35px #9a0000, -5px 40px #9a0000,
-                15px 40px #9a0000, 35px 40px #9a0000, 50px 50px #9a0000,
-                -20px 55px #9a0000, 20px 60px #9a0000, 40px 60px #9a0000,
-                -5px 65px #9a0000, 10px 70px #9a0000, 30px 70px #9a0000;
+            transform: translateY(140px);
+            width: 15px;
+            height: 15px;
+            background: #ff0000;
         }
 
         .blood-visible {
             opacity: 1 !important;
-            animation: none !important; /* Убираем прошлую анимацию */
+            /* Генерация взрыва пикселей через множественные тени с анимацией */
+            box-shadow: 
+                20px -20px #9a0000, -30px -10px #ff0000, 40px 10px #7a0000, 
+                -10px 40px #ff0000, 50px 30px #9a0000, -40px 20px #ff0000,
+                0px -50px #7a0000, 60px -10px #ff0000, -50px -40px #9a0000;
+            animation: pixelSplash 0.4s steps(4) forwards;
         }
 
-        /* КИРПИЧ */
+        @keyframes pixelSplash {
+            0% { transform: translateY(140px) scale(0); box-shadow: 0 0 #ff0000; }
+            50% { transform: translateY(140px) scale(1.5); }
+            100% { 
+                transform: translateY(160px) scale(1.2);
+                box-shadow: 
+                    80px -40px #9a0000, -90px -20px #ff0000, 110px 30px #7a0000, 
+                    -30px 80px #ff0000, 120px 60px #9a0000, -100px 50px #ff0000,
+                    10px -90px #7a0000, 130px -20px #ff0000, -120px -70px #9a0000;
+            }
+        }
+
+        /* УВЕЛИЧЕННЫЙ КИРПИЧ */
         #brick {
             position: absolute;
-            width: 220px; 
+            width: 320px; /* Было 220, стало 320 */
             top: -500px;
             left: 50%;
             transform: translateX(-50%);
@@ -104,10 +112,9 @@
 
         @keyframes fall {
             0% { top: -500px; transform: translateX(-50%) rotate(0deg); }
-            100% { top: 220px; transform: translateX(-50%) rotate(15deg); }
+            100% { top: 200px; transform: translateX(-50%) rotate(10deg); }
         }
 
-        /* Остальные стили не менялись */
         .avatar-name {
             margin-top: 30px; font-size: 30px; font-weight: bold; text-transform: uppercase; letter-spacing: 3px; color: #ffffff; text-shadow: 0 0 10px #107c10;
         }
@@ -129,7 +136,6 @@
         
         <div class="avatar-window" id="window">
             <img src="https://github.com/PoeB0t/glack-site/blob/main/images/i.png?raw=true" id="brick" alt="кирпич">
-            <!-- Кровь теперь генерируется CSS-ом -->
             <div id="blood"></div>
             <img src="" id="avatar" class="avatar-img">
         </div>
@@ -158,7 +164,7 @@
         const avatarImg = document.getElementById('avatar');
         const nameText = document.getElementById('name');
         const brick = document.getElementById('brick');
-        const blood = document.getElementById('blood'); // Теперь это DIV
+        const blood = document.getElementById('blood');
 
         function updateDisplay() {
             avatarImg.classList.remove('squashed');
