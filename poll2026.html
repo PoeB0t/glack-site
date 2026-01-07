@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xbox Avatar Crusher</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Контейнер для выбора */
+        .selector-container {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+        }
+
+        /* Рамка для фото */
+        .avatar-window {
+            width: 250px;
+            height: 250px;
+            border: 4px solid #107c10; /* Xbox Green */
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #2a2a2a;
+            position: relative;
+            overflow: visible;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Текст под фото */
+        .avatar-name {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #107c10;
+        }
+
+        /* Кнопки стрелок */
+        .arrow-btn {
+            background: none;
+            border: none;
+            color: #107c10;
+            font-size: 50px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .arrow-btn:hover {
+            color: #ffffff;
+            transform: scale(1.2);
+        }
+
+        /* Кирпич */
+        #brick {
+            position: absolute;
+            width: 150px;
+            top: -500px; /* Спрятан сверху */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        /* Кнопка "Раздавить" */
+        .crush-btn {
+            margin-top: 40px;
+            padding: 15px 30px;
+            background-color: #e81123;
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            text-transform: uppercase;
+        }
+
+        .crush-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Класс для эффекта "раздавленности" */
+        .squashed {
+            transform: scaleY(0.1) translateY(400px) !important;
+            filter: grayscale(1) contrast(2);
+        }
+
+        /* Анимация падения кирпича */
+        .brick-fall {
+            animation: fall 0.4s forwards cubic-bezier(0.6, 0.04, 0.98, 0.33);
+        }
+
+        @keyframes fall {
+            0% { top: -500px; }
+            100% { top: 50px; } /* Падает прямо на рамку */
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="margin-bottom: 50px;">ВЫБЕРИ ЖЕРТВУ</h1>
+
+    <div class="selector-container">
+        <button class="arrow-btn" onclick="prev()">❮</button>
+        
+        <div class="avatar-window" id="window">
+            <!-- Кирпич (картинка) -->
+            <img src="img.icons8.com" id="brick" alt="кирпич">
+            
+            <img src="" id="avatar" class="avatar-img">
+        </div>
+
+        <button class="arrow-btn" onclick="next()">❯</button>
+    </div>
+
+    <div id="name" class="avatar-name">Загрузка...</div>
+
+    <button class="crush-btn" onclick="crushIt()">РАЗДАВИТЬ КИРПИЧОМ</button>
+
+    <script>
+        // СПИСОК ФОТО И ИМЕН (Сюда вставляй свои ссылки)
+        const avatars = [
+            {
+                name: "Колобок",
+                url: "github.com"
+            },
+            {
+                name: "Степан",
+                url: "github.com"
+            },
+            {
+                name: "Яйцо",
+                url: "png.pngtree.com"
+            }
+        ];
+
+        let currentIndex = 0;
+        const avatarImg = document.getElementById('avatar');
+        const nameText = document.getElementById('name');
+        const brick = document.getElementById('brick');
+
+        function updateDisplay() {
+            // Сбрасываем эффекты раздавливания
+            avatarImg.classList.remove('squashed');
+            brick.classList.remove('brick-fall');
+            brick.style.top = "-500px";
+
+            // Ставим новую картинку
+            avatarImg.src = avatars[currentIndex].url;
+            nameText.innerText = avatars[currentIndex].name;
+        }
+
+        function next() {
+            currentIndex = (currentIndex + 1) % avatars.length;
+            updateDisplay();
+        }
+
+        function prev() {
+            currentIndex = (currentIndex - 1 + avatars.length) % avatars.length;
+            updateDisplay();
+        }
+
+        function crushIt() {
+            // Запускаем кирпич
+            brick.classList.add('brick-fall');
+
+            // Через 350мс (когда кирпич долетит) плющим картинку
+            setTimeout(() => {
+                avatarImg.classList.add('squashed');
+                // Звук удара можно добавить тут
+            }, 350);
+        }
+
+        // Инициализация
+        updateDisplay();
+    </script>
+</body>
+</html>
