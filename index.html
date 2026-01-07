@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glack - Choose Language</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Общие стили для половин экрана */
+        .lang-side {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: flex 0.5s ease, filter 0.5s ease;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        /* Эффект при наведении (расширение стороны) */
+        .lang-side:hover {
+            flex: 1.5;
+            filter: brightness(1.2) contrast(1.1);
+        }
+
+        /* Затемнение, чтобы текст читался */
+        .lang-side::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            transition: background 0.5s ease;
+        }
+
+        .lang-side:hover::before {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Ссылки на фоны */
+        .ru-side {
+            background-image: url('ССЫЛКА_НА_ФОН_РУССКИЙ'); /* Вставьте ссылку сюда */
+            border-right: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .uk-side {
+            background-image: url('ССЫЛКА_НА_ФОН_УКРАИНСКИЙ'); /* Вставьте ссылку сюда */
+        }
+
+        /* Текст внутри карточек */
+        .lang-side span {
+            position: relative;
+            z-index: 2;
+            color: white;
+            font-size: 3rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .lang-side:hover span {
+            transform: scale(1.2);
+        }
+
+        /* Кнопка-логотип посередине */
+        .center-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            width: 150px; /* Размер логотипа */
+            height: 150px;
+            pointer-events: none; /* Чтобы кнопка не мешала кликать по сторонам */
+        }
+
+        .center-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Адаптивность для мобилок */
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+            .lang-side { border-right: none; border-bottom: 2px solid rgba(255,255,255,0.1); }
+            .lang-side span { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Левая часть (Русский) -->
+        <a href="/ru.html" class="lang-side ru-side">
+            <span>RU</span>
+        </a>
+
+        <!-- Логотип по центру (PNG) -->
+        <div class="center-logo">
+            <img src="ССЫЛКА_НА_ВАШУ_PNG_ФОТКУ" alt="Logo"> <!-- Вставьте ссылку сюда -->
+        </div>
+
+        <!-- Правая часть (Українська) -->
+        <a href="/uk.html" class="lang-side uk-side">
+            <span>UA</span>
+        </a>
+    </div>
+
+</body>
+</html>
