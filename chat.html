@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вайб-Чат с Нейросетью v1.0</title>
+  <style>
+    /* Старый добрый хакерский/ретро стиль */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #0a0a0a;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* Шапка в стиле старых окон */
+    .chat-header {
+      border: 2px solid #00ff00;
+      background: #002200;
+      padding: 10px;
+      margin-bottom: 15px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Главный экран чата */
+    #chat-container {
+      flex: 1;
+      border: 2px solid #00ff00;
+      background: #020202;
+      padding: 20px;
+      overflow-y: auto;
+      margin-bottom: 15px;
+      box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.2);
+    }
+
+    /* Стили сообщений */
+    .message {
+      margin-bottom: 15px;
+      line-height: 1.5;
+      font-size: 16px;
+      word-wrap: break-word;
+    }
+    .user-msg {
+      color: #00ffff;
+    }
+    .ai-msg {
+      color: #00ff00;
+    }
+    .system-msg {
+      color: #ffaa00;
+      font-style: italic;
+    }
+
+    /* Зона ввода */
+    .input-container {
+      display: flex;
+      gap: 10px;
+    }
+    #user-input {
+      flex: 1;
+      background-color: #111;
+      border: 2px solid #00ff00;
+      color: #00ff00;
+      font-family: inherit;
+      padding: 12px;
+      font-size: 16px;
+    }
+    #user-input:focus {
+      outline: none;
+      background-color: #181818;
+      box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+    }
+    #send-btn {
+      background-color: #00ff00;
+      color: #000;
+      border: none;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 0 25px;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+    #send-btn:hover {
+      background-color: #00cc00;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chat-header">
+    <span>🤖 RETRO_AI_BRAТAN_v1.0</span>
+    <span>STATUS: ONLINE</span>
+  </div>
+
+  <div id="chat-container">
+    <div class="message system-msg">[СИСТЕМА]: Соединение установлено. Нейросеть в сети. Задавай свои житейские вопросы, помогу чем смогу.</div>
+  </div>
+
+  <div class="input-container">
+    <input type="text" id="user-input" placeholder="Напиши что-нибудь умное..." autofocus autocomplete="off">
+    <button id="send-btn">Отправить</button>
+  </div>
+
+  <script>
+    const chatContainer = document.getElementById('chat-container');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    // СЮДА ВСТАВЬ СВОЙ API-КЛЮЧ ОТ OPENROUTER
+    const API_KEY = "СЮДА_ВСТАВЬ_СВОЙ_КЛЮЧ"; 
+
+    // Функция отрисовки текста на экране
+    function appendMessage(text, type) {
+      const msgDiv = document.createElement('div');
+      msgDiv.classList.add('message');
+      
+      if (type === 'user') {
+        msgDiv.classList.add('user-msg');
+        msgDiv.innerText = `[ВЫ]: ${text}`;
+      } else if (type === 'ai') {
+        msgDiv.classList.add('ai-msg');
+        msgDiv.innerText = `[ИИ]: ${text}`;
+      } else {
+        msgDiv.classList.add('system-msg');
+        msgDiv.innerText = `[СИСТЕМА]: ${text}`;
+      }
+
+      chatContainer.appendChild(msgDiv);
+      // Автопрокрутка вниз при новых сообщениях
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+      return msgDiv;
+    }
+
+    // Функция запроса к нейросети
+    async function sendMessageToAI() {
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      // Выводим сообщение юзера на экран и очищаем поле ввода
+      appendMessage(text, 'user');
+      userInput.value = '';
+
+      // Показываем статус загрузки
+      const loader = appendMessage('Думаю над твоим вопросом...', 'system');
+
+      try {
+        const response = await fetch("https://openrouter.ai", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${API_KEY}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            "model": "meta-llama/llama-3-8b-instruct:free", // Используем бесплатную и быструю модель
+            "messages": [
+              {
+                "role": "system", 
+                "content": "Ты — ИИ-помощник на сайте пацанов. Отвечаешь просто, понятно, с легким дружеским вайбом, используешь современный сленг, но без перебора. Помогаешь решать житейские вопросы, даешь короткие практичные советы."
+              },
+              { "role": "user", "content": text }
+            ]
+          })
+        });
+
+        const data = await response.json();
+        
+        // Удаляем надпись "Думаю..."
+        loader.remove();
+
+        if (data.choices && data.choices[0]) {
+          const aiReply = data.choices[0].message.content;
+          appendMessage(aiReply, 'ai');
+        } else {
+          appendMessage('Что-то пошло не так, сервер прислал пустой ответ.', 'system');
+        }
+
+      } catch (error) {
+        loader.remove();
+        appendMessage('Ошибка сети. Проверь API-ключ или интернет.', 'system');
+        console.error(error);
+      }
+    }
+
+    // Слушаем клик по кнопке
+    sendBtn.addEventListener('click', sendMessageToAI);
+
+    // Слушаем нажатие Enter
+    userInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        sendMessageToAI();
+      }
+    });
+  </script>
+</body>
+</html>
