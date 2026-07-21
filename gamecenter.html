@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Старый монитор</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <main class="page">
+
+    <section class="control-window">
+      <div class="win-title">
+        <span>Internet Explorer - Retro Loader</span>
+        <div class="win-buttons">
+          <button>_</button>
+          <button>□</button>
+          <button>×</button>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <label for="siteInput">Адрес сайта:</label>
+        <input 
+          id="siteInput" 
+          type="text" 
+          placeholder="Например: https://example.com"
+        />
+        <button id="loadBtn">Загрузить</button>
+        <button id="openBtn">Открыть отдельно</button>
+      </div>
+
+      <p class="hint">
+        Важно: некоторые сайты запрещают вставку через iframe. Если сайт не открылся — попробуй другой.
+      </p>
+    </section>
+
+    <section class="monitor">
+      <div class="monitor-top">
+        <div class="brand">RETRO PC 98</div>
+        <div class="power-led"></div>
+      </div>
+
+      <div class="screen-frame">
+        <div class="screen">
+          <div class="scanlines"></div>
+
+          <iframe 
+            id="siteFrame"
+            title="Встроенный сайт"
+            src="demo.html"
+          ></iframe>
+        </div>
+      </div>
+
+      <div class="monitor-bottom">
+        <div class="buttons">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <div class="stand"></div>
+      <div class="base"></div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
