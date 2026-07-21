@@ -13,7 +13,7 @@ const openBtn = document.getElementById("openBtn");
   const defaultSite = "https://example.com";
 */
 
-const defaultSite = "demo.html";
+const defaultSite = "https://allorigins.win";
 
 siteInput.value = defaultSite;
 siteFrame.src = defaultSite;
